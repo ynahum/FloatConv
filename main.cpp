@@ -10,12 +10,22 @@ void print_help() {
   std::cout << "(hex, bf16), (hex, fp16), (hex, fp32), (hex, fp64)" << std::endl;
 }
 
-int main() {
-  print_help();
-  std::string from;
-  std::string to;
-  std::string value_str;
-  std::cin >> from >> to >> value_str;
+int main(int argc, char *argv[]) {
+  //print_help();
+
+  // Check if the correct number of command-line arguments are provided
+  if (argc != 4) {
+      std::cerr << "Usage: " << argv[0] << " <from> <to> <value>" << std::endl;
+      return 1; // Return error code
+  }
+
+  // Get command-line arguments
+  std::string from = argv[1];
+  std::string to = argv[2];
+  std::string value_str = argv[3];
+
+  // Your code to process the arguments goes here
+  std::cout << "From: " << from << ", To: " << to << ", Value: " << value_str << std::endl;
 
   double value;
 
