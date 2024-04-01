@@ -48,6 +48,27 @@ int main(int argc, char *argv[]) {
     ss >> x;
     std::bitset<16> bits(x);
     std::cout << std::fixed << flx::detail::construct_number<8,7>(bits) << std::endl;
+    // Extract sign bit, exponent, and mantissa
+    int sign_bit = (x >> 15) & 0x1;
+    int exponent = (x >> 7) & 0xFF;
+    int mantissa = x & 0x7F;
+
+    // Calculate sign (1/-1)
+    int sign = (sign_bit == 0) ? 1 : -1;
+
+    // Print binary representation of sign bit, exponent, and mantissa
+    std::cout << "Sign bit: " << std::bitset<1>(sign_bit) << std::endl;
+    std::cout << "Exponent: " << std::bitset<8>(exponent) << std::endl;
+    std::cout << "Mantissa: " << std::bitset<7>(mantissa) << std::endl;
+
+    // Print parsed values
+    std::cout << "Sign: " << sign << std::endl;
+    std::cout << "Exponent: " << exponent << std::endl;
+    std::cout << "Mantissa: " << mantissa << std::endl;
+    std::cout << "if normalized: (-1)^sign x 2^(" << exponent - 127 <<
+     ") x " << 128 + mantissa << " x 2^(-7)" << std::endl;
+    double value = std::pow(-1,sign) * std::pow(2,exponent - 127) * (128 + mantissa) * std::pow(2,-7);
+    std::cout << value << std::endl;
   } else if (from == "hex" && to == "fp16") {
     uint16_t x;
     std::stringstream ss;
